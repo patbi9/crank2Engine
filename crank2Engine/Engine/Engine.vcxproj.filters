@@ -31,8 +31,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\bin\Shaders\Triangle.hlsl">
+    <None Include="..\bin\Shaders\Triangle.hlsl">
       <Filter>Resource Files</Filter>
-    </FxCompile>
+    </None>
+    <None Include="..\Shaders\Cube.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

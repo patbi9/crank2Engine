@@ -27,8 +27,8 @@ public:
 	Engine(const Engine&) = delete;
 	Engine& operator=(Engine&&) = delete;
 
-	Engine(Engine&&) = delete;
-	Engine& operator=(Engine&&) = delete;
+	//Engine(Engine&&) = delete;
+	//Engine& operator=(Engine&&) = delete;
 
 	bool Initialize(
 		void* nativeWindow,

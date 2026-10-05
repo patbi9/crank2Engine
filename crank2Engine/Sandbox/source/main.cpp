@@ -67,7 +67,7 @@ wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR commandLine, int 
 	}
 
 	//Ventana fija mientras no implementemos ResizeBuffers.
-	constexpr DWORD windowStyle =
+	constexpr unsigned int windowStyle =
 		WS_OVERLAPPED |
 		WS_CAPTION |
 		WS_SYSMENU |
@@ -195,5 +195,12 @@ wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR commandLine, int 
 	}
 
 	engine.Shutdown();
+
+	UnregisterClassW(
+		WINDOW_CLASS_NAME,
+		instance
+	);
+
+	return 0;
 
 }
