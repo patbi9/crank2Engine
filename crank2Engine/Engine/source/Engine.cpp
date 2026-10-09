@@ -199,6 +199,11 @@ bool Engine::Initialize(
     engine.window = static_cast<HWND>(nativeWindow);
     engine.width = width;
     engine.height = height;
+
+    //Swapchain configuration
+    /*Brief: This configuration is used to create the swapchain for the Direct3D device.
+    * It specifies the number of buffers, the format of the back buffer, the refresh rate,
+    * and other properties related to how the swapchain will behave.*/
     DXGI_SWAP_CHAIN_DESC swapChainDescription{};
 
     swapChainDescription.BufferCount = 2;
