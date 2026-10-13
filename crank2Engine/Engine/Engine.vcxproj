@@ -197,6 +197,7 @@
   <ItemGroup>
     <ClInclude Include="include\Engine\API.h" />
     <ClInclude Include="include\Engine\Engine.h" />
+    <ClInclude Include="include\Engine\Prerequisites.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\Shaders\Triangle.hlsl">

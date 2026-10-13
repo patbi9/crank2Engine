@@ -29,6 +29,9 @@
     <ClInclude Include="include\Engine\Engine.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="include\Engine\Prerequisites.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\Shaders\Triangle.hlsl">
