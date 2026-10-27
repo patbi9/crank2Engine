@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\Rendering\Device.cpp" />
+    <ClCompile Include="source\Rendering\DeviceContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThirdParties\DirectXTK\DirectXTK_Desktop_2022.vcxproj">
@@ -200,6 +201,7 @@
     <ClInclude Include="include\Engine\Engine.h" />
     <ClInclude Include="include\Engine\Prerequisites.h" />
     <ClInclude Include="include\Rendering\Device.h" />
+    <ClInclude Include="include\Rendering\DeviceContext.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\Shaders\Triangle.hlsl">

@@ -2,13 +2,10 @@
 #include <Window.h>
 
 int WINAPI
-wWinMain(
- HINSTANCE instance,
- HINSTANCE previousInstance,
- PWSTR commandLine,
- int showCommand
- ){
-
+wWinMain(HINSTANCE instance,
+		 HINSTANCE previousInstance,
+		 PWSTR commandLine,
+		 int showCommand){
  UNREFERENCED_PARAMETER(previousInstance);
  UNREFERENCED_PARAMETER(commandLine);
 
@@ -39,7 +36,7 @@ wWinMain(
    L"Engine Error",
    MB_OK | MB_ICONERROR
   );
-		return 1;
+  return 1;
  }
 
  window.Show(showCommand);

@@ -40,11 +40,9 @@ public:
   * @return true si la inicialización fue exitosa, false en caso contrario.
   */
  bool
- Initialize(
-  void* nativeWindow,
-  std::uint32_t width,
-  std::uint32_t height
-  ) noexcept;
+ Initialize(void* nativeWindow,
+            std::uint32_t width,
+            std::uint32_t height) noexcept;
 
  /**
   * @brief Renderiza un fotograma en la pantalla.
