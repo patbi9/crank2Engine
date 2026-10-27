@@ -1,5 +1,6 @@
 #include <Engine/Engine.h>
 #include <Rendering/Device.h>
+#include <Rendering/DeviceContext.h>
 
 struct
 Engine::Implementation {
@@ -19,8 +20,9 @@ Engine::Implementation {
  std::uint32_t height = 0;
 
  Device device;
+ DeviceContext context;
  //ID3D11Device* device = nullptr;
- ID3D11DeviceContext* context = nullptr;
+ //ID3D11DeviceContext* context = nullptr;
  IDXGISwapChain* swapChain = nullptr;
  ID3D11RenderTargetView* renderTarget = nullptr;
  ID3D11Texture2D* depthStencilBuffer = nullptr;
@@ -91,10 +93,10 @@ Engine::Implementation {
 
  void
   ReleaseResources() noexcept {
-  if (context) {
-   context->ClearState();
-   context->Flush();
-  }
+  //if (context) {
+  // context->ClearState();
+  // context->Flush();
+  //}
 
   SafeRelease(rasterizerState);
   SafeRelease(transformBuffer);
@@ -110,8 +112,9 @@ Engine::Implementation {
   SafeRelease(renderTarget);
 
   SafeRelease(swapChain);
-  SafeRelease(context);
+  context.destroy();
   device.destroy();
+  //SafeRelease(context);
   //SafeRelease(device);
 
   window = nullptr;
@@ -182,26 +185,27 @@ Engine::Initialize(
  D3D_FEATURE_LEVEL selectedFeatureLevel{};
 
  HRESULT result = D3D11CreateDeviceAndSwapChain(
-  nullptr,
-  D3D_DRIVER_TYPE_HARDWARE,
-  nullptr,
-  0,
-  featureLevels,
-  ARRAYSIZE(featureLevels),
-  D3D11_SDK_VERSION,
-  &swapChainDescription,
-  &engine.swapChain,
-  engine.device.getDeviceAddress(),
-  &selectedFeatureLevel,
-  &engine.context
+     nullptr,
+     D3D_DRIVER_TYPE_HARDWARE,
+     nullptr,
+     0,
+     featureLevels,
+     ARRAYSIZE(featureLevels),
+     D3D11_SDK_VERSION,
+     &swapChainDescription,
+     &engine.swapChain,
+     engine.device.getDeviceAddress(),
+     &selectedFeatureLevel,
+     engine.context.getDeviceContextAddress()
  );
 
  // Si falla la GPU fisica, utiliza el rasterizador
  // por software de Windows.
  if (FAILED(result)) {
   SafeRelease(engine.swapChain);
-  SafeRelease(engine.context);
+  engine.context.destroy();
   engine.device.destroy();
+  //SafeRelease(engine.context);
   //SafeRelease(engine.device);
 
   result = D3D11CreateDeviceAndSwapChain(
@@ -216,7 +220,7 @@ Engine::Initialize(
    &engine.swapChain,
    engine.device.getDeviceAddress(),
    &selectedFeatureLevel,
-   &engine.context
+   engine.context.getDeviceContextAddress()
   );
  }
 
@@ -294,10 +298,7 @@ Engine::Initialize(
  viewport.MinDepth = 0.0f;
  viewport.MaxDepth = 1.0f;
 
- engine.context->RSSetViewports(
-  1,
-  &viewport
- );
+ engine.context.RSSetViewports(1, &viewport);
 
  ID3DBlob* vertexShaderBlob = nullptr;
  ID3DBlob* pixelShaderBlob = nullptr;
@@ -520,7 +521,7 @@ Engine::Render() noexcept {
 
  Implementation& engine = *m_implementation;
 
- if (!engine.context ||
+ if (!engine.context.getDeviceContext() ||
      !engine.swapChain ||
      !engine.renderTarget ||
      !engine.depthStencilBuffer ||
@@ -541,18 +542,18 @@ Engine::Render() noexcept {
   1.0f
  };
 
- engine.context->OMSetRenderTargets(
+ engine.context.OMSetRenderTargets(
   1,
   &engine.renderTarget,
   engine.depthStencilView
  );
 
- engine.context->ClearRenderTargetView(
+ engine.context.ClearRenderTargetView(
   engine.renderTarget,
   clearColor
  );
 
- engine.context->ClearDepthStencilView(
+ engine.context.ClearDepthStencilView(
   engine.depthStencilView,
   D3D11_CLEAR_DEPTH |
   D3D11_CLEAR_STENCIL,
@@ -602,7 +603,7 @@ Engine::Render() noexcept {
   XMMatrixTranspose(world * view * projection)
  );
 
- engine.context->UpdateSubresource(
+ engine.context.UpdateSubresource(
   engine.transformBuffer,
   0,
   nullptr,
@@ -615,7 +616,7 @@ Engine::Render() noexcept {
 
  constexpr UINT offset = 0;
 
- engine.context->IASetVertexBuffers(
+ engine.context.IASetVertexBuffers(
   0,
   1,
   &engine.vertexBuffer,
@@ -623,43 +624,43 @@ Engine::Render() noexcept {
   &offset
  );
 
- engine.context->IASetIndexBuffer(
+ engine.context.IASetIndexBuffer(
   engine.indexBuffer,
   DXGI_FORMAT_R16_UINT,
   0
  );
 
- engine.context->IASetInputLayout(
+ engine.context.IASetInputLayout(
   engine.inputLayout
  );
 
- engine.context->IASetPrimitiveTopology(
+ engine.context.IASetPrimitiveTopology(
   D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
  );
 
- engine.context->RSSetState(
+ engine.context.RSSetState(
   engine.rasterizerState
  );
 
- engine.context->VSSetShader(
+ engine.context.VSSetShader(
   engine.vertexShader,
   nullptr,
   0
  );
 
- engine.context->VSSetConstantBuffers(
+ engine.context.VSSetConstantBuffers(
   0,
   1,
   &engine.transformBuffer
  );
 
- engine.context->PSSetShader(
+ engine.context.PSSetShader(
   engine.pixelShader,
   nullptr,
   0
  );
 
- engine.context->DrawIndexed(
+ engine.context.DrawIndexed(
   36,
   0,
   0

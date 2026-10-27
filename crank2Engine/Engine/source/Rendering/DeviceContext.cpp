@@ -1,5 +1,9 @@
 #include "Rendering/DeviceContext.h"
 
+DeviceContext::~DeviceContext() {
+	destroy();
+}
+
 void 
 DeviceContext::destroy() {
 	if (m_deviceContext) {

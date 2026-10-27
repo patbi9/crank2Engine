@@ -26,12 +26,6 @@ public:
 	ID3D11DeviceContext&
 	requireContext() const noexcept;
 
-	//void
-	//ClearState(void);
-
-	//void
-	//Flush(void);
-
 	void
 	RSSetViewports(unsigned int numViewports,
 				   const D3D11_VIEWPORT* pViewports) noexcept;

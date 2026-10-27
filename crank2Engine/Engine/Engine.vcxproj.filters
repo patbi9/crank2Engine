@@ -42,6 +42,9 @@
     <ClInclude Include="include\Rendering\DeviceContext.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="include\Rendering\SwapChain.h">
+      <Filter>Header Files\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\Shaders\Triangle.hlsl">
